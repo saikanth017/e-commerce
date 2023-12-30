@@ -19,22 +19,57 @@ import "react-toastify/dist/ReactToastify.css";
 function Registration() {
   const { signUp } = useAuth();
   const navgate = useNavigate();
+  // async function signup(event) {
+  //   event.preventDefault();
+  //   const { email, password, name } = event.target;
+  //   await signUp(email.value, password.value, name.value);
+  //   navgate("/login");
+  //   toast.success("Registration Success", {
+  //     position: "top-right",
+  //     autoClose: 3000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "light",
+  //   });
+  // }
   async function signup(event) {
     event.preventDefault();
     const { email, password, name } = event.target;
-    await signUp(email.value, password.value, name.value);
-    navgate("/login");
-    toast.success("Registration Success", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+
+    try {
+      await signUp(email.value, password.value, name.value);
+      navgate("/login");
+      toast.success("Registration Success", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.error("Registration failed:", error.message);
+      toast.error(
+        `Registration failed, Password should at least 6 characters`,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    }
   }
+
   return (
     <Container maxWidth="xs">
       <Card sx={{ marginTop: 10, padding: 2 }}>

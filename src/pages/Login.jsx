@@ -20,22 +20,55 @@ import "react-toastify/dist/ReactToastify.css";
 function Login() {
   const { signIn } = useAuth();
   const navgate = useNavigate();
+  // async function login(event) {
+  //   event.preventDefault();
+  //   const { email, password } = event.target;
+  //   await signIn(email.value, password.value);
+  //   navgate("/");
+  //   toast.success("Logged In Success", {
+  //     position: "top-right",
+  //     autoClose: 3000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "light",
+  //   });
+  // }
+
   async function login(event) {
     event.preventDefault();
     const { email, password } = event.target;
-    await signIn(email.value, password.value);
-    navgate("/");
-    toast.success("Logged In Success", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+
+    try {
+      await signIn(email.value, password.value);
+      navgate("/");
+      toast.success("Logged In Success", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.error("Login failed:", error.message);
+      toast.error("Login failed. Please check your credentials.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   }
+
   return (
     <Container maxWidth="xs">
       <Card sx={{ marginTop: 10, padding: 2 }}>
